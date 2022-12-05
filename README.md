@@ -1,4 +1,4 @@
-# Homework: REST Remote Access Tool Web Service
+# Homework: Remote Access Tool - Reactivity
 
 ## Technology Enablers
 - Web Service definition language: OpenAPI
@@ -23,17 +23,19 @@
 ### Running the Provider
 - **./gradlew run**
 
-### Python consumer
-- Install Zeep package using pip:
-  - pip install zeep
-- run the consumer from the src folder:
-  - python src/main/python/consumer.py
 
-### JavaScript consumer
-- Install all packages:
-  - npm install
-- Run the consumer:
-  - npm start
+### Webpage Consumer
+- After running the provider, you can find in the public folder under the path `src/main/resources/public` the HTML, CSS and JS of the consumer that applies what HW 4 asks us to do.
+- Spring Boot does the linking between the root path of the Provider server and the root path of the application.
+- To access the application using your browser, if you are running the server locally, follow the following link:
+- `http://localhost:8080/`
+
+# Solution Description
+- The solution I proposed has an input which takes the number of seconds (n) for the periodicity of the API calls, and a button which triggers the function `onClick()`.
+- The function `onClick()` does the following in-order:
+  - Checks if the input (n) is valid, if not, sends an alert and returns.
+  - Next, it checks if there is already an interval running, if so, it needs to clear it using `clearInterval(intervalId)` and nullyfing the intervalId reference, and returns.
+  - If all previous checks do not return, it starts a new interval with a new subscription following the specified input.
 
 ## Design of the Web Service Functionalities
 The web service RAT does three main functions:
