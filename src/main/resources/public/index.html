@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="browser/index.js" type="application/javascript"></script>
+    <script defer src="index.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap&text=RobtMn"
+      rel="stylesheet"
+    />
+    <title>RAT: Remote Access Tool</title>
+    <meta name="keywords" content="HTML, CSS, JavaScript, RxJs" />
+    <meta name="author" content="Hamza Rehioui" />
+  </head>
+
+  <body>
+    <h1>RAT: Remote Access Tool</h1>
+    <div style="width: 100%;">
+      <img class="image" id="img" src="./blankimage.jpg" alt="Screenshot" />
+    </div>
+    <div class="form">
+      <input type="number" placeholder="Take a screenshot every n seconds" />
+      <button id="screenshotBtn" onclick="onClick()">Start</button>
+    </div>
+  </body>
+</html>
