@@ -1,4 +1,4 @@
-package ma.aui.sse.paradigms.integration.rs.rat.provider;
+package ma.aui.sse.paradigms.integration.xs.rat.provider;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,115 +9,71 @@ import java.util.Base64;
 import java.util.Optional;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import javax.jws.WebService;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Robot;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-
-@RestController
-@RequestMapping("/rat")
+/**
+ * This class provides a web service that allows remote access to various system-level functions on a
+ * computer running the Java Virtual Machine (JVM).
+ */
+@WebService
 public class RemoteAccessUtility {
 
-    @GetMapping("/processes")
+    /**
+     * Returns a list of all running processes on the system, along with some details about each process.
+     *
+     * @return an ArrayList of strings containing details about each process
+     */
     public ArrayList<String> getProcesses() {
-
         ArrayList<String> listOfAllProcesses = new ArrayList<String>();
-            
-        StringBuilder processes = new StringBuilder("");
-
         ProcessHandle.allProcesses().forEach(
             process -> listOfAllProcesses.add(processDetails(process)) 
         );
-
         return listOfAllProcesses;
-
     }
 
-
-    @GetMapping("/screenshot")
+    /**
+     * Takes a screenshot of the entire screen and returns the screenshot as a base64-encoded string.
+     *
+     * @return a base64-encoded string representing the screenshot
+     */
     public String screenshot() {
-
         try {
-
             Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
             BufferedImage screenshot = new Robot().createScreenCapture(screenRect);
-
             String extension = "png";
-
             return encodeToString(screenshot, extension);
-
-        } 
-        catch (Exception ex) {
-            
+        } catch (Exception ex) {
             return "";
-
         }
     }
 
-    // @GetMapping(value = "/screenshot", produces = MediaType.IMAGE_JPEG_VALUE)
-    // public byte[] screenshot() {
-
-    //     try {
-
-    //         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-    //         BufferedImage capture = new Robot().createScreenCapture(screenRect);
-
-    //         ByteArrayOutputStream temp = new ByteArrayOutputStream();
-    //         ImageIO.write(capture, "jpg", temp);
-
-    //         return temp.toByteArray();
-
-    //     } 
-    //     catch (Exception ex) {
-            
-    //         return new byte[0];
-
-    //     }
-    // }
-
-    @GetMapping("/reboot")
+    /**
+     * Reboots the system.
+     *
+     * @return true if the reboot was successful, false otherwise
+     */
     public boolean reboot() {
-
         try {
-
             ProcessBuilder builder = System.getProperty("os.name").toLowerCase().contains("win")
                     ? new ProcessBuilder("shutdown", "-r", "-t", "1")
                     : new ProcessBuilder("shutdown", "-r", "now");
-
             Process process = builder.start();
-
             return true;
-
-        } 
-        catch (Exception ex) {
-            
+        } catch (Exception ex) {
             return false;
-
         }
-							
     }
 
-    private static String processDetails(ProcessHandle process) {
-
-		return String.format("%8d %8s %10s %-40s",
-				process.pid(),
-				text(process.parent().map(ProcessHandle::pid)),
-				text(process.info().user()),
-                text(process.info().commandLine()));
-                
-	}
-	
-    private static String text(Optional<?> optional) {
-
-        return optional.map(Object::toString).orElse("-");
-
-    }
-
-
+    /**
+     * Encodes a BufferedImage object as a base64-encoded string.
+     *
+     * @param image the BufferedImage object to be encoded
+     * @param type the file type of the image (e.g. "png")
+     * @return a base64-encoded string representing the image
+     */
     private static String encodeToString(BufferedImage image, String type) {
          
         String imageString = null;  
